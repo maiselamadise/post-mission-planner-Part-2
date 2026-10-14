@@ -3,7 +3,7 @@
   "info": {
     "title": "Post-Mission Planner API",
     "version": "1.0.0",
-    "description": "Spiritual goals and career goals. POST, PUT and DELETE require GitHub OAuth login: open /auth/login in this browser first, then use Try it out."
+    "description": "Spiritual, career, financial, and education goals. POST, PUT and DELETE require GitHub OAuth login: open /auth/login in this browser first, then use Try it out."
   },
   "servers": [
     {
@@ -603,6 +603,598 @@
         "description": "Requires login."
       }
     },
+    "/financial-goals": {
+      "get": {
+        "tags": [
+          "Financial Goals"
+        ],
+        "summary": "Get all Financial Goals",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FinancialGoalResponse"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Financial Goals"
+        ],
+        "summary": "Create a FinancialGoal",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FinancialGoal"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FinancialGoalResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "description": "Requires login."
+      }
+    },
+    "/financial-goals/{id}": {
+      "get": {
+        "tags": [
+          "Financial Goals"
+        ],
+        "summary": "Get one FinancialGoal",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "24-character MongoDB ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FinancialGoalResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid id format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Financial Goals"
+        ],
+        "summary": "Update a FinancialGoal",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "24-character MongoDB ObjectId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FinancialGoalUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Updated, no content"
+          },
+          "400": {
+            "description": "Invalid id, empty body, or validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "description": "Requires login."
+      },
+      "delete": {
+        "tags": [
+          "Financial Goals"
+        ],
+        "summary": "Delete a FinancialGoal",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "24-character MongoDB ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Spiritual goal deleted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid id format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "description": "Requires login."
+      }
+    },
+    "/education-goals": {
+      "get": {
+        "tags": [
+          "Education Goals"
+        ],
+        "summary": "Get all Education Goals",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EducationGoalResponse"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Education Goals"
+        ],
+        "summary": "Create a EducationGoal",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EducationGoal"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EducationGoalResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "description": "Requires login."
+      }
+    },
+    "/education-goals/{id}": {
+      "get": {
+        "tags": [
+          "Education Goals"
+        ],
+        "summary": "Get one EducationGoal",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "24-character MongoDB ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EducationGoalResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid id format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Education Goals"
+        ],
+        "summary": "Update a EducationGoal",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "24-character MongoDB ObjectId"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EducationGoalUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Updated, no content"
+          },
+          "400": {
+            "description": "Invalid id, empty body, or validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "description": "Requires login."
+      },
+      "delete": {
+        "tags": [
+          "Education Goals"
+        ],
+        "summary": "Delete a EducationGoal",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "24-character MongoDB ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Spiritual goal deleted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid id format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "description": "Requires login."
+      }
+    },
     "/auth/login": {
       "get": {
         "tags": [
@@ -924,6 +1516,303 @@
             "example": [
               "title is required"
             ]
+          }
+        }
+      },
+      "FinancialGoal": {
+        "type": "object",
+        "required": [
+          "userId",
+          "title"
+        ],
+        "properties": {
+          "userId": {
+            "type": "string",
+            "example": "665f1c2e8b3a4d0012345678",
+            "description": "24-character hex ObjectId of the owner"
+          },
+          "title": {
+            "type": "string",
+            "example": "Build a three-month emergency fund"
+          },
+          "description": {
+            "type": "string",
+            "example": "Save a set amount from each paycheck"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Not Started",
+              "In Progress",
+              "Completed"
+            ],
+            "example": "In Progress"
+          },
+          "targetDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-12-31"
+          },
+          "notes": {
+            "type": "string",
+            "example": "Automatic transfer set up on payday"
+          },
+          "amountTarget": {
+            "type": "number",
+            "minimum": 0,
+            "example": 5000
+          },
+          "amountSaved": {
+            "type": "number",
+            "minimum": 0,
+            "example": 1200
+          }
+        }
+      },
+      "FinancialGoalUpdate": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Build a three-month emergency fund"
+          },
+          "description": {
+            "type": "string",
+            "example": "Save a set amount from each paycheck"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Not Started",
+              "In Progress",
+              "Completed"
+            ],
+            "example": "In Progress"
+          },
+          "targetDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-12-31"
+          },
+          "notes": {
+            "type": "string",
+            "example": "Automatic transfer set up on payday"
+          },
+          "amountTarget": {
+            "type": "number",
+            "minimum": 0,
+            "example": 5000
+          },
+          "amountSaved": {
+            "type": "number",
+            "minimum": 0,
+            "example": 1200
+          }
+        },
+        "description": "Any subset of fields. userId cannot be changed."
+      },
+      "FinancialGoalResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "665f2a9d8b3a4d00aabbccdd"
+          },
+          "userId": {
+            "type": "string",
+            "example": "665f1c2e8b3a4d0012345678",
+            "description": "24-character hex ObjectId of the owner"
+          },
+          "title": {
+            "type": "string",
+            "example": "Build a three-month emergency fund"
+          },
+          "description": {
+            "type": "string",
+            "example": "Save a set amount from each paycheck"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Not Started",
+              "In Progress",
+              "Completed"
+            ],
+            "example": "In Progress"
+          },
+          "targetDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-12-31"
+          },
+          "notes": {
+            "type": "string",
+            "example": "Automatic transfer set up on payday"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "amountTarget": {
+            "type": "number",
+            "minimum": 0,
+            "example": 5000
+          },
+          "amountSaved": {
+            "type": "number",
+            "minimum": 0,
+            "example": 1200
+          }
+        }
+      },
+      "EducationGoal": {
+        "type": "object",
+        "required": [
+          "userId",
+          "title"
+        ],
+        "properties": {
+          "userId": {
+            "type": "string",
+            "example": "665f1c2e8b3a4d0012345678",
+            "description": "24-character hex ObjectId of the owner"
+          },
+          "title": {
+            "type": "string",
+            "example": "Finish an associate degree"
+          },
+          "description": {
+            "type": "string",
+            "example": "Take two classes each semester"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Not Started",
+              "In Progress",
+              "Completed"
+            ],
+            "example": "In Progress"
+          },
+          "targetDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-12-31"
+          },
+          "notes": {
+            "type": "string",
+            "example": "Registration opens in November"
+          },
+          "institution": {
+            "type": "string",
+            "example": "BYU-Idaho"
+          },
+          "creditsCompleted": {
+            "type": "number",
+            "minimum": 0,
+            "example": 30
+          }
+        }
+      },
+      "EducationGoalUpdate": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Finish an associate degree"
+          },
+          "description": {
+            "type": "string",
+            "example": "Take two classes each semester"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Not Started",
+              "In Progress",
+              "Completed"
+            ],
+            "example": "In Progress"
+          },
+          "targetDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-12-31"
+          },
+          "notes": {
+            "type": "string",
+            "example": "Registration opens in November"
+          },
+          "institution": {
+            "type": "string",
+            "example": "BYU-Idaho"
+          },
+          "creditsCompleted": {
+            "type": "number",
+            "minimum": 0,
+            "example": 30
+          }
+        },
+        "description": "Any subset of fields. userId cannot be changed."
+      },
+      "EducationGoalResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "665f2a9d8b3a4d00aabbccdd"
+          },
+          "userId": {
+            "type": "string",
+            "example": "665f1c2e8b3a4d0012345678",
+            "description": "24-character hex ObjectId of the owner"
+          },
+          "title": {
+            "type": "string",
+            "example": "Finish an associate degree"
+          },
+          "description": {
+            "type": "string",
+            "example": "Take two classes each semester"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Not Started",
+              "In Progress",
+              "Completed"
+            ],
+            "example": "In Progress"
+          },
+          "targetDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-12-31"
+          },
+          "notes": {
+            "type": "string",
+            "example": "Registration opens in November"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "institution": {
+            "type": "string",
+            "example": "BYU-Idaho"
+          },
+          "creditsCompleted": {
+            "type": "number",
+            "minimum": 0,
+            "example": 30
           }
         }
       }

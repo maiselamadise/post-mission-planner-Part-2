@@ -1,6 +1,6 @@
 # Post-Mission Planner API
 
-CSE 341 final project. CRUD for `spiritualGoals` and `careerGoals`, GitHub OAuth, Jest tests, and Swagger docs at `/api-docs`.
+CSE 341 final project. CRUD for four collections: `spiritualGoals`, `careerGoals`, `financialGoals`, and `educationGoals`, GitHub OAuth, Jest tests, and Swagger docs at `/api-docs`.
 
 ## Run locally
 1. `npm install`
@@ -10,7 +10,8 @@ CSE 341 final project. CRUD for `spiritualGoals` and `careerGoals`, GitHub OAuth
 ## Deploy on Render
 - New Web Service from this GitHub repo
 - Build command: `npm install` | Start command: `npm start`
-- Environment variable: `MONGODB_URI`
+- Environment variables: `MONGODB_URI`, `SESSION_SECRET`, `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `NODE_ENV=production`
+- Do NOT set `GITHUB_CALLBACK_URL` to a localhost address on Render. Leave it unset (the app uses Render's public URL automatically) or set it to the `https://` Render URL
 - In Atlas > Network Access, allow `0.0.0.0/0` so Render can connect
 - Docs: `https://<your-service>.onrender.com/api-docs`
 
@@ -23,10 +24,10 @@ GET 200 · POST 201 · PUT 204 · DELETE 200 · bad input/id 400 · missing reco
 - Quick error checks: GET `/spiritual-goals/abc` returns 400; a valid but unused id returns 404.
 
 ## OAuth (GitHub)
-1. GitHub > Settings > Developer settings > OAuth Apps > New. Callback URL: `https://<your-service>.onrender.com/auth/github/callback` (make a second app for localhost).
-2. Set `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `GITHUB_CALLBACK_URL`, `SESSION_SECRET`, and `NODE_ENV=production` on Render.
+1. GitHub > Settings > Developer settings > OAuth Apps > New. Callback URL: `https://<your-service>.onrender.com/auth/github/callback` (make a second GitHub OAuth app for localhost; the production app's callback must be the Render URL, never localhost).
+2. Set `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `SESSION_SECRET`, and `NODE_ENV=production` on Render. `GITHUB_CALLBACK_URL` is optional there.
 3. Visit `/auth/login` in the browser, then use Swagger "Try it out" (the session cookie is sent automatically). `/auth/logout` ends the session.
-- Protected: POST, PUT, DELETE on both collections (401 when logged out). GET stays public.
+- Protected: POST, PUT, DELETE on all four collections (401 when logged out). GET stays public.
 
 ## Tests
-`npm test` runs Jest + Supertest with mocked models (no database needed): GET, GET by id, 400/404/500 paths, and 401 on protected routes.
+`npm test` (or `npm run test:verbose` to list every test name, useful for the demo video) runs Jest + Supertest with mocked models (no database needed): GET, GET by id, 400/404/500 paths, and 401 on protected routes.
